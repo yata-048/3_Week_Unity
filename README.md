@@ -44,7 +44,7 @@ Tận dụng animation sprite có sẵn tải từ itch.io, bóc tách animation
 - **Frame vung đòn (Active Hitbox):** Bật collider/hitbox chém xuống đúng 1-2 frame animation của sprite để quét va chạm trúng Player.
 - **Frame hồi chiêu (Recovery):** Khựng lại trước khi chuyển sang chiêu tiếp theo.
 
-**III. HỆ THỐNG KỸ THUẬT 
+**III. HỆ THỐNG KỸ THUẬT** 
 
 - **Interface FSM:** Quản lý các trạng thái tách biệt cho Player (Idle, Run, Jump, Dash, Parry, Hurt) và Boss (Chase, DelayWindUp, Attack, Hurt).
 - **ScriptableObject:** Lưu các chỉ số máu, tốc độ di chuyển, thời gian mở cửa sổ Parry, và sát thương.
