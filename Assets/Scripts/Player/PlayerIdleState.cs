@@ -39,6 +39,11 @@ public class PlayerIdleState : IState
             stateMachine.ChangeState(player.AttackState);
             return;
         }
+        if (player.InputActions.Player.Dodge.WasPressedThisFrame() && player.CanRoll())
+        {
+            stateMachine.ChangeState(player.RollState);
+            return;
+        }
     }
 
     public void FixedTick() { }

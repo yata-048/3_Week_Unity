@@ -22,10 +22,7 @@ public class PlayerMoveState : IState
             return;
         }
 
-        if (moveInput > 0.05f)
-            player.sr.flipX = false;
-        else if (moveInput < -0.05f)
-            player.sr.flipX = true;
+        player.Flip();
 
         if (player.InputActions.Player.Jump.WasPressedThisFrame() && player.IsGrounded())
         {
@@ -42,6 +39,11 @@ public class PlayerMoveState : IState
         if (player.InputActions.Player.Parry.WasPressedThisFrame() && player.canParry)
         {
             stateMachine.ChangeState(player.ParryState);
+            return;
+        }
+        if (player.InputActions.Player.Dodge.WasPressedThisFrame() && player.CanRoll())
+        {
+            stateMachine.ChangeState(player.RollState);
             return;
         }
 

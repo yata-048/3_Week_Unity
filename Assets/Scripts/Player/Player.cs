@@ -13,7 +13,11 @@ public class Player : MonoBehaviour
     public LayerMask groundLayer;
     public float moveSpeed = 4f;
     public float jumpForce = 6f;
-
+    public float rollSpeed = 8f;
+    public float rollCooldown = 2f;
+    public float rollDuration = 1f;
+    public bool isInvincible = false;
+    public float lastRollTime = -10f; // đánh dấu lần cuối nhảy với -10f nhỏ hơn thời điểm time.time khi bấm player là 0;
     [System.NonSerialized] public PlayerInputActions InputActions;
     [System.NonSerialized] public StateMachine StateMachine;
     [System.NonSerialized] public PlayerIdleState IdleState;
@@ -21,6 +25,8 @@ public class Player : MonoBehaviour
     [System.NonSerialized] public PlayerMoveState MoveState;
     [System.NonSerialized] public PlayerParryState ParryState;
     [System.NonSerialized] public PlayerAttackState AttackState;
+    [System.NonSerialized] public PlayerRollingState RollState;
+    public float moveDirection;
 
     void Awake()
     {
@@ -43,6 +49,7 @@ public class Player : MonoBehaviour
         MoveState = new PlayerMoveState(this, StateMachine);
         ParryState = new PlayerParryState(this, StateMachine);
         AttackState = new PlayerAttackState(this, StateMachine);
+        RollState = new PlayerRollingState(this, StateMachine);
         StateMachine.ForceSetState(IdleState);
     }
     void OnEnable()
@@ -57,6 +64,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        moveDirection = InputActions.Player.Move.ReadValue<float>();
         StateMachine?.Tick();
     }
 
@@ -82,4 +90,16 @@ public class Player : MonoBehaviour
             transform.position + Vector3.down * groundCheckDistance
         );
     }
+    public bool CanRoll()
+    {
+        return Time.time >= lastRollTime + rollCooldown;
+    }
+    public void Flip() 
+    {
+        if (moveDirection == 0) return;
+        Vector3 scale = transform.localScale;
+        scale.x = Mathf.Abs(scale.x) * Mathf.Sign(moveDirection);
+        transform.localScale = scale;
+    }
+
 }

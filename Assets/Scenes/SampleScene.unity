@@ -447,7 +447,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   moveSpeed: 4
-  jumpForce: 6
+  jumpForce: 5
+  rollSpeed: 4
+  rollCooldown: 2
+  rollDuration: 1
+  isInvincible: 0
+  lastRollTime: -10
+  moveDirection: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0

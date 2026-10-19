@@ -20,18 +20,13 @@ public class PlayerJumpState : IState
     public void Tick()
     {
         moveInput = player.InputActions.Player.Move.ReadValue<float>();
-        if (moveInput > 0.05f)
-            player.sr.flipX = false;
-        else if (moveInput < -0.05f)
-            player.sr.flipX = true;
-
+        player.Flip();
         if (jumpDelayTimer > 0f)
         {
             jumpDelayTimer -= Time.deltaTime;
         }
         else
         {
-            // Only land when falling or stationary vertically
             if (player.rb.linearVelocity.y <= 0.1f && player.IsGrounded())
             {
                 if (Mathf.Abs(moveInput) > 0.05f)
