@@ -4,7 +4,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public SpriteRenderer sr;
     public float parryDuration = 0.2f;
     public bool isParry = false;
     public bool canParry = true;
@@ -17,21 +16,20 @@ public class Player : MonoBehaviour
     public float rollCooldown = 2f;
     public float rollDuration = 1f;
     public bool isInvincible = false;
-    public float lastRollTime = -10f; // đánh dấu lần cuối nhảy với -10f nhỏ hơn thời điểm time.time khi bấm player là 0;
-    [System.NonSerialized] public PlayerInputActions InputActions;
-    [System.NonSerialized] public StateMachine StateMachine;
-    [System.NonSerialized] public PlayerIdleState IdleState;
-    [System.NonSerialized] public PlayerJumpState JumpState;
-    [System.NonSerialized] public PlayerMoveState MoveState;
-    [System.NonSerialized] public PlayerParryState ParryState;
-    [System.NonSerialized] public PlayerAttackState AttackState;
-    [System.NonSerialized] public PlayerRollingState RollState;
-    public float moveDirection;
+    public float lastRollTime { get; set; } = -10f;  // đánh dấu lần cuối nhảy với -10f nhỏ hơn thời điểm time.time khi bấm player là 0;
+    public PlayerInputActions InputActions { get; private set; }
+    public StateMachine StateMachine { get; private set; }
+    public PlayerIdleState IdleState { get; private set; }
+    public PlayerJumpState JumpState { get; private set; }
+    public PlayerMoveState MoveState { get; private set; }
+    public PlayerParryState ParryState { get; private set; }
+    public PlayerAttackState AttackState { get; private set; }
+    public PlayerRollingState RollState { get; private set; }
+    public float moveDirection { get; private set; }
 
     void Awake()
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
-        if (sr == null) sr = GetComponent<SpriteRenderer>();
 
         if (groundLayer.value == 0)
         {

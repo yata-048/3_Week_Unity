@@ -23,7 +23,10 @@ public class PlayerParryState : IState
         timer -= Time.deltaTime;
         if (timer <= 0f)
         {
-            stateMachine.ChangeState(player.IdleState);
+            if (Mathf.Abs(player.moveDirection) > 0.05f)
+                stateMachine.ChangeState(player.MoveState);
+            else
+                stateMachine.ChangeState(player.IdleState);
         }
     }
 

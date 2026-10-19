@@ -8,10 +8,14 @@ public class PlayerRollingState : IState
     private StateMachine stateMachine;
     private float timer;
     private float rollDirection;
+    private int playerLayer;
+    private int bossLayer;
     public PlayerRollingState(Player player, StateMachine stateMachine)
     {
         this.player = player;
         this.stateMachine = stateMachine;
+        playerLayer = LayerMask.NameToLayer("Player");
+        bossLayer = LayerMask.NameToLayer("Boss");
     }
     
     public void Enter()
@@ -19,6 +23,7 @@ public class PlayerRollingState : IState
         player.isInvincible = true;
         Debug.Log("dang bat I-Frame!");
         timer = player.rollDuration;
+        Physics2D.IgnoreLayerCollision(playerLayer, bossLayer, true);
         if(Mathf.Abs(player.moveDirection) > 0)
         {
             rollDirection = Mathf.Sign(player.moveDirection);
@@ -51,6 +56,7 @@ public class PlayerRollingState : IState
         player.isInvincible = false;
         player.lastRollTime = Time.time;
         Debug.Log("het I-frame!");
+        Physics2D.IgnoreLayerCollision(playerLayer, bossLayer, false);
         player.rb.linearVelocity = new Vector2(0f, player.rb.linearVelocity.y);
     }
 
