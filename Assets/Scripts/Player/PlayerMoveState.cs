@@ -12,7 +12,10 @@ public class PlayerMoveState : IState
         this.stateMachine = stateMachine;
     }
 
-    public void Enter() {}
+    public void Enter()
+    {
+        player.Anim.SetBool("isMoving", true);
+    }
     public void Tick()
     {
         moveInput = player.InputActions.Player.Move.ReadValue<float>();
@@ -50,5 +53,8 @@ public class PlayerMoveState : IState
         player.rb.linearVelocity = new Vector2(moveInput * player.moveSpeed, player.rb.linearVelocity.y);
     }
     public void FixedTick() {}
-    public void Exit() {}
+    public void Exit()
+    {
+        player.Anim.SetBool("isMoving", false);
+    }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Rigidbody2D rb;
+    public float maxHealth = 100;
+    public float currentHealth;
     public float parryDuration = 0.2f;
     public bool isParry = false;
     public bool canParry = true;
@@ -16,7 +18,7 @@ public class Player : MonoBehaviour
     public float rollCooldown = 2f;
     public float rollDuration = 1f;
     public bool isInvincible = false;
-    public float lastRollTime { get; set; } = -10f;  // đánh dấu lần cuối nhảy với -10f nhỏ hơn thời điểm time.time khi bấm player là 0;
+    public float lastRollTime { get; set; } = -10f;  // đánh dấu lần cuối nhảy với -10f nhỏ hơn thời điểm time.time khi bấm play là 0;
     public PlayerInputActions InputActions { get; private set; }
     public StateMachine StateMachine { get; private set; }
     public PlayerIdleState IdleState { get; private set; }
@@ -26,11 +28,13 @@ public class Player : MonoBehaviour
     public PlayerAttackState AttackState { get; private set; }
     public PlayerRollingState RollState { get; private set; }
     public float moveDirection { get; private set; }
+    public Animator Anim { get; private set; }
 
     void Awake()
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
-
+        Anim = GetComponent<Animator>();
+        currentHealth = maxHealth;
         if (groundLayer.value == 0)
         {
             groundLayer = LayerMask.GetMask("Ground");
@@ -64,6 +68,8 @@ public class Player : MonoBehaviour
     {
         moveDirection = InputActions.Player.Move.ReadValue<float>();
         StateMachine?.Tick();
+        Anim.SetFloat("yVelocity", rb.linearVelocity.y);
+        Anim.SetBool("isGrounded", IsGrounded());
     }
 
     void FixedUpdate()

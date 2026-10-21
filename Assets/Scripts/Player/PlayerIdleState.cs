@@ -14,6 +14,7 @@ public class PlayerIdleState : IState
     public void Enter()
     {
         player.rb.linearVelocity = new Vector2(0f, player.rb.linearVelocity.y);
+        player.Anim.SetBool("isMoving", false);
     }
 
     public void Tick()

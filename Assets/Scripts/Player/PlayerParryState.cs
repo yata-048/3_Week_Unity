@@ -17,6 +17,7 @@ public class PlayerParryState : IState
         player.isParry = true;
         Debug.Log("parry");
         timer = player.parryDuration;
+        player.Anim.SetTrigger("Defend");
     }
     public void Tick()
     {

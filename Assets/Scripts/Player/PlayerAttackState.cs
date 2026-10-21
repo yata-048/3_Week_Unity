@@ -17,6 +17,7 @@ public class PlayerAttackState : IState
         player.rb.linearVelocity = new Vector2(0f, player.rb.linearVelocity.y);
         Debug.Log("attack start");
         timer = player.attackDuration;
+        player.Anim.SetTrigger("Attack");
     }
 
     public void Tick()

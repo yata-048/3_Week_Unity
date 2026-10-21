@@ -24,16 +24,17 @@ public class PlayerRollingState : IState
         Debug.Log("dang bat I-Frame!");
         timer = player.rollDuration;
         Physics2D.IgnoreLayerCollision(playerLayer, bossLayer, true);
-        if(Mathf.Abs(player.moveDirection) > 0)
-        {
-            rollDirection = Mathf.Sign(player.moveDirection);
-            player.Flip();
-        }
-        else
-        {
-            rollDirection = -Mathf.Sign(player.transform.localScale.x);
-        }
-        player.rb.linearVelocity = new Vector2(player.rollSpeed * rollDirection, 0f);
+        // if(Mathf.Abs(player.moveDirection) > 0)
+        // {
+        //     rollDirection = Mathf.Sign(player.moveDirection);
+        //     player.Flip();
+        // }
+        // else
+        // {
+        //     rollDirection = -Mathf.Sign(player.transform.localScale.x);
+        // }
+        player.rb.linearVelocity = new Vector2(player.rollSpeed * player.moveDirection, 0f);
+        player.Anim.SetTrigger("Roll");
     }
     public void Tick()
     {
