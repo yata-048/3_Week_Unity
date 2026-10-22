@@ -19,6 +19,7 @@ public class BossAttackState : IState
         hasDealtDamage = false;
         boss.rb.linearVelocity = new Vector2(0f, boss.rb.linearVelocity.y);
         Debug.Log("Boss: Vung kiem chem!");
+        boss.Anim.SetTrigger("Attack");
     }
 
     public void Tick()
@@ -61,5 +62,8 @@ public class BossAttackState : IState
     }
 
     public void FixedTick() {}
-    public void Exit() {}
+    public void Exit()
+    {
+        boss.Anim.SetBool("isMoving", true);
+    }
 }

@@ -96,7 +96,7 @@ public class Player : MonoBehaviour
     }
     public bool CanRoll()
     {
-        return Time.time >= lastRollTime + rollCooldown;
+        return Time.time >= lastRollTime + rollCooldown; 
     }
     public void Flip() 
     {

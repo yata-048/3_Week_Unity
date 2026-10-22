@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class Boss : MonoBehaviour
@@ -29,12 +30,13 @@ public class Boss : MonoBehaviour
     public BossAttackState AttackState { get; private set; }
     public BossTakeHitState GetHitState { get; private set; }
     public BossDeadState DeadState { get; private set; }
+    public Animator Anim { get; private set; }
 
     void Awake()
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
+        if (Anim == null) Anim = GetComponent<Animator>();
         currentHealth = maxHealth;
-
         if (player == null)
         {
             Player p = FindAnyObjectByType<Player>();
@@ -57,6 +59,8 @@ public class Boss : MonoBehaviour
     void Update()
     {
         StateMachine?.Tick();
+        float speed = Mathf.Abs(rb.linearVelocityX);
+        Anim.SetFloat("xVelocity", speed);
     }
 
     void FixedUpdate()

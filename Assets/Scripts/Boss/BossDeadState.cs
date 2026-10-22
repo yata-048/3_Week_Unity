@@ -18,6 +18,7 @@ public class BossDeadState : IState
         Collider2D col = boss.GetComponent<Collider2D>();
         if (col != null) col.enabled = false;
         boss.rb.bodyType = RigidbodyType2D.Static;
+        boss.Anim.SetTrigger("isDead");
     }
 
     public void Tick() {}
