@@ -105,5 +105,27 @@ public class Player : MonoBehaviour
         scale.x = Mathf.Abs(scale.x) * Mathf.Sign(moveDirection);
         transform.localScale = scale;
     }
+    public void TakeDamage(float damage)
+    {
+        if (currentHealth <= 0) return; 
+        currentHealth -= damage;
+        currentHealth = Mathf.Max(0, currentHealth); 
+        Debug.Log($"Player dính đòn! Mất {damage} máu. Máu còn: {currentHealth}/{maxHealth}");
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+        else
+        {
+            Anim.SetTrigger("TakeHit");
+        }
+    }
+     private void Die()
+    {
+        Debug.Log("Player đã chết!");
+        Anim.SetBool("isDead", true); 
+        InputActions.Player.Disable(); 
+        rb.linearVelocity = Vector2.zero; 
+    }
 
 }

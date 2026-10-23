@@ -477,7 +477,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.06468129, y: -0.1335249}
+  m_Offset: {x: 0.15142274, y: -0.1335249}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.2}
@@ -487,7 +487,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.6953225, y: 2.8520494}
+  m_Size: {x: 1.5218396, y: 2.8520494}
   m_EdgeRadius: 0
 --- !u!212 &602419494
 SpriteRenderer:
@@ -589,9 +589,9 @@ MonoBehaviour:
     m_Bits: 64
   moveSpeed: 7
   jumpForce: 5
-  rollSpeed: 8
+  rollSpeed: 12
   rollCooldown: 2
-  rollDuration: 1
+  rollDuration: 0.5
   isInvincible: 0
 --- !u!95 &602419497
 Animator:
@@ -1046,7 +1046,7 @@ MonoBehaviour:
   chaseSpeed: 2
   attackRange: 4
   attackCooldown: 3
-  attackDuration: 1
+  attackDuration: 1.2
   damageDelay: 0.5
   attackDamage: 20
   hurtDuration: 0.5

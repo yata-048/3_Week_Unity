@@ -6,6 +6,7 @@ public class BossAttackState : IState
     private StateMachine stateMachine;
     private float timer;
     private bool hasDealtDamage;
+    private bool isHitboxActive;
 
     public BossAttackState(Boss boss, StateMachine stateMachine)
     {
@@ -17,6 +18,7 @@ public class BossAttackState : IState
     {
         timer = boss.attackDuration;
         hasDealtDamage = false;
+        isHitboxActive = false;
         boss.rb.linearVelocity = new Vector2(0f, boss.rb.linearVelocity.y);
         Debug.Log("Boss: Vung kiem chem!");
         boss.Anim.SetTrigger("Attack");
@@ -25,7 +27,7 @@ public class BossAttackState : IState
     public void Tick()
     {
         timer -= Time.deltaTime;
-        if (!hasDealtDamage && (boss.attackDuration - timer) >= boss.damageDelay)
+        if (!hasDealtDamage && isHitboxActive)
         {
             DealDamage();
             hasDealtDamage = true;
@@ -36,6 +38,15 @@ public class BossAttackState : IState
             stateMachine.ChangeState(boss.ChaseState);
         }
     }
+    public void OpenAttackHitBox()
+    {
+        isHitboxActive = true;
+    }
+    public void CloseAttackHitBox()
+    {
+        isHitboxActive = false;
+    }
+
 
     private void DealDamage()
     {
@@ -45,6 +56,7 @@ public class BossAttackState : IState
         {
             Player player = hit.GetComponent<Player>();
             if (player == null) return;
+            hasDealtDamage = true;
             if (player.isParry)
             {
                 Debug.Log("Parry thành công !Boss bị ngắt chiêu!");
@@ -57,13 +69,17 @@ public class BossAttackState : IState
                 Debug.Log("Player Roll né đòn thành công!");
                 return;
             }
-            Debug.Log($"Player ĂN ĐÒN! Mất {boss.attackDamage} máu!");
+            player.TakeDamage(boss.attackDamage);
+    
         }
     }
+
 
     public void FixedTick() {}
     public void Exit()
     {
-        boss.Anim.SetBool("isMoving", true);
+        hasDealtDamage = false;
     }
+
+    
 }

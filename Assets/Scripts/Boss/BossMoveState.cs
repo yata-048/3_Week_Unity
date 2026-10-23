@@ -14,7 +14,7 @@ public class BossMoveState : IState
 
     public void Enter()
     {
-        boss.Anim.SetBool("isMoving", true);
+        
     }
 
     public void Tick()
@@ -48,6 +48,5 @@ public class BossMoveState : IState
     public void Exit()
     {
         boss.rb.linearVelocity = new Vector2(0f, boss.rb.linearVelocity.y);
-        boss.Anim.SetBool("isMoving", false);
     }
 }

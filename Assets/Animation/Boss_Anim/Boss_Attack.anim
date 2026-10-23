@@ -41,14 +41,16 @@ AnimationClip:
     - time: 0.75
       value: {fileID: 21300000, guid: f8cab59cfd2695f4c9d5440e0a494ad8, type: 3}
     - time: 0.8333333
-      value: {fileID: 21300000, guid: 43903d4c1ad29f641b765bccbb6def28, type: 3}
+      value: {fileID: 21300000, guid: f8cab59cfd2695f4c9d5440e0a494ad8, type: 3}
     - time: 0.9166667
-      value: {fileID: 21300000, guid: 8717fcc8a5cd8c745b3fbe6e408cd5c5, type: 3}
+      value: {fileID: 21300000, guid: 43903d4c1ad29f641b765bccbb6def28, type: 3}
     - time: 1
-      value: {fileID: 21300000, guid: f4306243e63b5164ca3c2ab00c3d32ad, type: 3}
+      value: {fileID: 21300000, guid: 8717fcc8a5cd8c745b3fbe6e408cd5c5, type: 3}
     - time: 1.0833334
-      value: {fileID: 21300000, guid: 37ec432cde0e9f34c83fffb0e5fead89, type: 3}
+      value: {fileID: 21300000, guid: f4306243e63b5164ca3c2ab00c3d32ad, type: 3}
     - time: 1.1666666
+      value: {fileID: 21300000, guid: 37ec432cde0e9f34c83fffb0e5fead89, type: 3}
+    - time: 1.25
       value: {fileID: 21300000, guid: f84a3c2f7f5abf5478b82e4714825add, type: 3}
     attribute: m_Sprite
     path: 
@@ -83,6 +85,7 @@ AnimationClip:
     - {fileID: 21300000, guid: 5cf9882c8fa87c24099e0cd43d9a7953, type: 3}
     - {fileID: 21300000, guid: eebe30f9648279e4fab376bc02a222d8, type: 3}
     - {fileID: 21300000, guid: f8cab59cfd2695f4c9d5440e0a494ad8, type: 3}
+    - {fileID: 21300000, guid: f8cab59cfd2695f4c9d5440e0a494ad8, type: 3}
     - {fileID: 21300000, guid: 43903d4c1ad29f641b765bccbb6def28, type: 3}
     - {fileID: 21300000, guid: 8717fcc8a5cd8c745b3fbe6e408cd5c5, type: 3}
     - {fileID: 21300000, guid: f4306243e63b5164ca3c2ab00c3d32ad, type: 3}
@@ -93,7 +96,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 1.25
+    m_StopTime: 1.3333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -112,4 +115,18 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.8333333
+    functionName: OpenAttackHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.0833334
+    functionName: CloseAttackHitBox
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

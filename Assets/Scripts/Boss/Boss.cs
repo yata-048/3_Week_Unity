@@ -109,4 +109,19 @@ public class Boss : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(GetAttackBoxCenter(), attackBoxSize);
     }
+    
+    public void OpenAttackHitBox()
+    {
+        if(StateMachine.CurrentState == AttackState)
+        {
+            AttackState.OpenAttackHitBox();
+        }
+    }
+    public void CloseAttackHitBox()
+    {
+        if(StateMachine.CurrentState == AttackState)
+        {
+            AttackState.CloseAttackHitBox();
+        }
+    }
 }
