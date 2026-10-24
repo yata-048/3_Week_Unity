@@ -33,6 +33,8 @@ public class Boss : MonoBehaviour
     public BossDeadState DeadState { get; private set; }
     public Animator Anim { get; private set; }
 
+    public HealthBar healthBar;
+
     void Awake()
     {
         if (rb == null) rb = GetComponent<Rigidbody2D>();
@@ -52,8 +54,8 @@ public class Boss : MonoBehaviour
         AttackState = new BossAttackState(this, StateMachine);
         GetHitState = new BossTakeHitState(this, StateMachine);
         DeadState = new BossDeadState(this, StateMachine);
-
         StateMachine.ForceSetState(ChaseState);
+        if (healthBar != null) healthBar.SetMaxHealth(maxHealth);
     }
 
     void Update()
@@ -89,8 +91,8 @@ public class Boss : MonoBehaviour
     public void TakeDamage(float damage)
     {
         if (currentHealth <= 0) return;
-
         currentHealth -= damage;
+        if (healthBar != null) healthBar.SetHealth(currentHealth);
         Debug.Log($"Boss ăn {damage} damage, máu còn: {currentHealth}");
 
         if (currentHealth <= 0)

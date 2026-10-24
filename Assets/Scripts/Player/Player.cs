@@ -4,24 +4,24 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public Rigidbody2D rb;
-    public float maxHealth = 100;
-    public float currentHealth;
-    public float parryDuration = 0.2f;
+    [field:SerializeField] public float maxHealth { get; private set; } = 100;
+    [field:SerializeField] public float currentHealth { get; private set; }
+    [field:SerializeField]public float parryDuration { get; private set; } = 0.2f;
     public bool isParry = false;
     public bool canParry = true;
-    public float attackDuration = 0.25f;
-    public float groundCheckDistance = 1.2f;
-    public LayerMask groundLayer;
-    public float moveSpeed = 4f;
-    public float jumpForce = 6f;
-    public float rollSpeed = 8f;
-    public float rollCooldown = 2f;
-    public float rollDuration = 1f;
-    public float invincibleDur;
-    public bool isInvincible = false;
-    public float knockbackDir;
-    public float knockbackSpeed;
-    public float knockbackJumpSpeed;
+    [field:SerializeField] public float attackDuration { get; private set; } = 0.25f;
+    [field:SerializeField] public float groundCheckDistance { get; private set; } = 1.2f;
+    public LayerMask groundLayer { get; private set; }
+    [field:SerializeField]public float moveSpeed { get; private set; } = 4f;
+    [field:SerializeField] public float jumpForce { get; private set; } = 6f;
+    [field:SerializeField] public float rollSpeed { get; private set; } = 8f;
+    [field:SerializeField] public  float rollCooldown { get; private set; } = 2f;
+    [field:SerializeField] public  float rollDuration { get; private set; } = 1f;
+    [field:SerializeField] public float invincibleDur { get; private set; }
+    public bool isInvincible { get; set; } = false;
+    public float knockbackDir { get; private set; }
+    [field:SerializeField] public float knockbackSpeed { get; private set; }
+    [field:SerializeField] public float knockbackJumpSpeed { get; private set; }
     
     public float lastRollTime { get; set; } = -10f;  // đánh dấu lần cuối nhảy với -10f nhỏ hơn thời điểm time.time khi bấm play là 0;
     public bool isDead { get; private set; }
@@ -33,15 +33,19 @@ public class Player : MonoBehaviour
     public PlayerParryState ParryState { get; private set; }
     public PlayerAttackState AttackState { get; private set; }
     public PlayerRollingState RollState { get; private set; }
+    public PlayerTakeHitState TakeHitState { get; private set; }
+    public float hurtDuration = 0.3f;
     public float moveDirection { get; private set; }
-    public Animator Anim { get; private set; }
+    public Animator Anim;
 
     public Boss boss;
+    public HealthBar healthBar;
     void Awake()
     {
         if(rb == null) rb = GetComponent<Rigidbody2D>();
         Anim = GetComponent<Animator>();
         if(boss == null) boss = FindAnyObjectByType<Boss>();
+        if (healthBar != null) healthBar.SetMaxHealth(maxHealth);
         currentHealth = maxHealth;
         if (groundLayer.value == 0)
         {
@@ -60,6 +64,7 @@ public class Player : MonoBehaviour
         ParryState = new PlayerParryState(this, StateMachine);
         AttackState = new PlayerAttackState(this, StateMachine);
         RollState = new PlayerRollingState(this, StateMachine);
+        TakeHitState = new PlayerTakeHitState(this, StateMachine);
         StateMachine.ForceSetState(IdleState);
     }
     void OnEnable()
@@ -74,6 +79,7 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0f) return;
         moveDirection = InputActions.Player.Move.ReadValue<float>();
         StateMachine?.Tick();
         Anim.SetFloat("yVelocity", rb.linearVelocity.y);
@@ -114,36 +120,37 @@ public class Player : MonoBehaviour
         scale.x = Mathf.Abs(scale.x) * Mathf.Sign(moveDirection);
         transform.localScale = scale;
     }
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, Boss attacker)
     {
-        if (currentHealth <= 0 || isInvincible) return; 
+        if (currentHealth <= 0 || isInvincible) return;
+        if (isParry)
+        {
+            if (attacker != null)
+            {
+                attacker.TakeDamage(attacker.bossDamageTaken);
+            }
+            return;
+        }
         currentHealth -= damage;
-        currentHealth = Mathf.Max(0, currentHealth); 
-        Debug.Log($"Player dính đòn! Mất {damage} máu. Máu còn: {currentHealth}/{maxHealth}");
+        currentHealth = Mathf.Max(0, currentHealth);
+        if (healthBar != null) healthBar.SetHealth(currentHealth);
         if (currentHealth <= 0)
         {
             Die();
         }
         else
         {
-            if(knockbackDir != boss.knockbackDir)
-            {
-                rb.linearVelocity = new Vector2(-knockbackDir * knockbackSpeed, knockbackJumpSpeed);
-            }
-            else
-            {
-                rb.linearVelocity = new Vector2(knockbackDir*knockbackSpeed, knockbackJumpSpeed);
-            }
-            Anim.SetTrigger("TakeHit");
+            StateMachine.ChangeState(TakeHitState);
         }
     }
-     private void Die()
+    private void Die()
     {
         Debug.Log("Player đã chết!");
         Anim.SetTrigger("isDead"); 
         isDead = true;
         InputActions.Player.Disable(); 
         rb.linearVelocity = Vector2.zero; 
+        if (GameManager.Instance != null) GameManager.Instance.GameOver(false);
     }
 
 }

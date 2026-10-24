@@ -59,24 +59,10 @@ public class BossAttackState : IState
         {
             Player player = hit.GetComponent<Player>();
             if (player == null) return;
-            if (player.isParry)
-            {
-                Debug.Log("Parry thành công !Boss bị ngắt chiêu!");
-                stateMachine.ChangeState(boss.GetHitState);
-                boss.TakeDamage(boss.bossDamageTaken);
-                return;
-            }
-            if (player.isInvincible)
-            {
-                // Debug.Log("Player Roll né đòn thành công!");
-                return;
-            }
             hasDealtDamage = true;
-            player.TakeDamage(boss.attackDamage);
-    
+            player.TakeDamage(boss.attackDamage, boss);
         }
     }
-
 
     public void FixedTick() {}
     public void Exit()

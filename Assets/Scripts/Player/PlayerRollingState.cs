@@ -24,7 +24,7 @@ public class PlayerRollingState : IState
         player.isInvincible = true;
         Debug.Log("dang bat I-Frame!");
         timer = player.rollDuration;
-        Physics2D.IgnoreLayerCollision(playerLayer, bossLayer, true);
+        // Physics2D.IgnoreLayerCollision(playerLayer, bossLayer, true);
         rollDirection = Mathf.Sign(player.transform.localScale.x);
         invincibleTimer = player.invincibleDur;
         // if(Mathf.Abs(player.moveDirection) > 0)
@@ -65,7 +65,7 @@ public class PlayerRollingState : IState
         
         player.lastRollTime = Time.time;
         Debug.Log("het I-frame!");
-        Physics2D.IgnoreLayerCollision(playerLayer, bossLayer, false);
+        // Physics2D.IgnoreLayerCollision(playerLayer, bossLayer, false);
         player.rb.linearVelocity = new Vector2(0f, player.rb.linearVelocity.y);
     }
 

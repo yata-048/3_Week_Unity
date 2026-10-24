@@ -19,6 +19,7 @@ public class BossDeadState : IState
         if (col != null) col.enabled = false;
         boss.rb.bodyType = RigidbodyType2D.Static;
         boss.Anim.SetTrigger("isDead");
+        if (GameManager.Instance != null) GameManager.Instance.GameOver(true);
     }
 
     public void Tick() {}
