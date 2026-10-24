@@ -68,7 +68,7 @@ public class BossAttackState : IState
             }
             if (player.isInvincible)
             {
-                Debug.Log("Player Roll né đòn thành công!");
+                // Debug.Log("Player Roll né đòn thành công!");
                 return;
             }
             hasDealtDamage = true;

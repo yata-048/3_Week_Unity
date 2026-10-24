@@ -557,32 +557,6 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
---- !u!1102 &6359133236203406753
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Rolling_Backward
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: a5e14569ce8d4c94c809f3a1ac9cefaa, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
 --- !u!1107 &6618936825635674833
 AnimatorStateMachine:
   serializedVersion: 7
@@ -619,9 +593,6 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: -5296762484509454304}
     m_Position: {x: 360, y: 510, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 6359133236203406753}
-    m_Position: {x: 395, y: 575, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 5605058306907442370}

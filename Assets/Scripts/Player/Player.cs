@@ -116,7 +116,7 @@ public class Player : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        if (currentHealth <= 0) return; 
+        if (currentHealth <= 0 || isInvincible) return; 
         currentHealth -= damage;
         currentHealth = Mathf.Max(0, currentHealth); 
         Debug.Log($"Player dính đòn! Mất {damage} máu. Máu còn: {currentHealth}/{maxHealth}");
