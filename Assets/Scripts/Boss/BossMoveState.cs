@@ -19,9 +19,9 @@ public class BossMoveState : IState
 
     public void Tick()
     {
-        if (boss.player == null) return;
-        float distanceToPlayer = Mathf.Abs(boss.player.position.x - boss.transform.position.x);
-        direction = Mathf.Sign(boss.player.position.x - boss.transform.position.x);
+        if (boss.player == null || boss.player.isDead) return;
+        float distanceToPlayer = Mathf.Abs(boss.player.transform.position.x - boss.transform.position.x);
+        direction = Mathf.Sign(boss.player.transform.position.x - boss.transform.position.x);
         boss.Flip(direction);
         if (distanceToPlayer <= boss.attackRange && boss.CanAttack())
         {
@@ -34,7 +34,7 @@ public class BossMoveState : IState
     {
         if (boss.player == null) return;
 
-        float distanceToPlayer = Mathf.Abs(boss.player.position.x - boss.transform.position.x);
+        float distanceToPlayer = Mathf.Abs(boss.player.transform.position.x - boss.transform.position.x);
         if (distanceToPlayer > boss.attackRange)
         {
             boss.rb.linearVelocity = new Vector2(direction * boss.chaseSpeed, boss.rb.linearVelocity.y);

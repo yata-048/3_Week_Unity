@@ -7,6 +7,7 @@ public class PlayerRollingState : IState
     private Player player;
     private StateMachine stateMachine;
     private float timer;
+    private float invincibleTimer;
     private float rollDirection;
     private int playerLayer;
     private int bossLayer;
@@ -25,6 +26,7 @@ public class PlayerRollingState : IState
         timer = player.rollDuration;
         Physics2D.IgnoreLayerCollision(playerLayer, bossLayer, true);
         rollDirection = Mathf.Sign(player.transform.localScale.x);
+        invincibleTimer = player.invincibleDur;
         // if(Mathf.Abs(player.moveDirection) > 0)
         // {
         //     rollDirection = Mathf.Sign(player.moveDirection);
@@ -40,6 +42,11 @@ public class PlayerRollingState : IState
     public void Tick()
     {
         timer -= Time.deltaTime;
+        invincibleTimer -= Time.deltaTime;
+        if(invincibleTimer <= 0 )
+        {
+            player.isInvincible = false;
+        }
         if(timer <= 0)
         {
             if(Mathf.Abs(player.moveDirection) > 0)
@@ -55,7 +62,7 @@ public class PlayerRollingState : IState
     public void FixedTick() {}
     public void Exit()
     {
-        player.isInvincible = false;
+        
         player.lastRollTime = Time.time;
         Debug.Log("het I-frame!");
         Physics2D.IgnoreLayerCollision(playerLayer, bossLayer, false);

@@ -15,9 +15,8 @@ public class BossTakeHitState : IState
     public void Enter()
     {
         timer = boss.hurtDuration;
-        float knockbackDir = -Mathf.Sign(boss.transform.localScale.x);
         boss.Anim.SetTrigger("TakeHit");
-        boss.rb.linearVelocity = new Vector2(knockbackDir * 2f, boss.rb.linearVelocity.y);
+        boss.rb.linearVelocity = new Vector2(-boss.knockbackDir * boss.knockbackSpeed, boss.knockbackJumpSpeed);
         Debug.Log("Boss trung don!");
     }
 

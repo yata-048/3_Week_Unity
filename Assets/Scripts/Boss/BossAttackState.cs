@@ -27,10 +27,14 @@ public class BossAttackState : IState
     public void Tick()
     {
         timer -= Time.deltaTime;
+        if (!isHitboxActive && boss.player != null)
+        {
+            float dir = Mathf.Sign(boss.player.transform.position.x - boss.transform.position.x);
+            boss.Flip(dir);
+        }
         if (!hasDealtDamage && isHitboxActive)
         {
             DealDamage();
-            hasDealtDamage = true;
         }
         if (timer <= 0f)
         {
@@ -51,12 +55,10 @@ public class BossAttackState : IState
     private void DealDamage()
     {
         Collider2D hit = Physics2D.OverlapBox(boss.GetAttackBoxCenter(), boss.attackBoxSize, 0f, boss.playerLayer);
-
         if (hit != null)
         {
             Player player = hit.GetComponent<Player>();
             if (player == null) return;
-            hasDealtDamage = true;
             if (player.isParry)
             {
                 Debug.Log("Parry thành công !Boss bị ngắt chiêu!");
@@ -69,6 +71,7 @@ public class BossAttackState : IState
                 Debug.Log("Player Roll né đòn thành công!");
                 return;
             }
+            hasDealtDamage = true;
             player.TakeDamage(boss.attackDamage);
     
         }
@@ -79,6 +82,7 @@ public class BossAttackState : IState
     public void Exit()
     {
         hasDealtDamage = false;
+        isHitboxActive = false;
     }
 
     

@@ -17,8 +17,14 @@ public class Player : MonoBehaviour
     public float rollSpeed = 8f;
     public float rollCooldown = 2f;
     public float rollDuration = 1f;
+    public float invincibleDur;
     public bool isInvincible = false;
+    public float knockbackDir;
+    public float knockbackSpeed;
+    public float knockbackJumpSpeed;
+    
     public float lastRollTime { get; set; } = -10f;  // đánh dấu lần cuối nhảy với -10f nhỏ hơn thời điểm time.time khi bấm play là 0;
+    public bool isDead { get; private set; }
     public PlayerInputActions InputActions { get; private set; }
     public StateMachine StateMachine { get; private set; }
     public PlayerIdleState IdleState { get; private set; }
@@ -30,10 +36,12 @@ public class Player : MonoBehaviour
     public float moveDirection { get; private set; }
     public Animator Anim { get; private set; }
 
+    public Boss boss;
     void Awake()
     {
-        if (rb == null) rb = GetComponent<Rigidbody2D>();
+        if(rb == null) rb = GetComponent<Rigidbody2D>();
         Anim = GetComponent<Animator>();
+        if(boss == null) boss = FindAnyObjectByType<Boss>();
         currentHealth = maxHealth;
         if (groundLayer.value == 0)
         {
@@ -43,7 +51,7 @@ public class Player : MonoBehaviour
                 groundLayer = ~LayerMask.GetMask("UI", "Ignore Raycast");
             }
         }
-
+        isDead = false;
         InputActions = new PlayerInputActions();
         StateMachine = new StateMachine();
         IdleState = new PlayerIdleState(this, StateMachine);
@@ -70,6 +78,7 @@ public class Player : MonoBehaviour
         StateMachine?.Tick();
         Anim.SetFloat("yVelocity", rb.linearVelocity.y);
         Anim.SetBool("isGrounded", IsGrounded());
+        knockbackDir = Mathf.Sign(transform.localScale.x);
     }
 
     void FixedUpdate()
@@ -117,13 +126,22 @@ public class Player : MonoBehaviour
         }
         else
         {
+            if(knockbackDir != boss.knockbackDir)
+            {
+                rb.linearVelocity = new Vector2(-knockbackDir * knockbackSpeed, knockbackJumpSpeed);
+            }
+            else
+            {
+                rb.linearVelocity = new Vector2(knockbackDir*knockbackSpeed, knockbackJumpSpeed);
+            }
             Anim.SetTrigger("TakeHit");
         }
     }
      private void Die()
     {
         Debug.Log("Player đã chết!");
-        Anim.SetBool("isDead", true); 
+        Anim.SetTrigger("isDead"); 
+        isDead = true;
         InputActions.Player.Disable(); 
         rb.linearVelocity = Vector2.zero; 
     }

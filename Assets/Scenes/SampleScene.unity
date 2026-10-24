@@ -591,8 +591,13 @@ MonoBehaviour:
   jumpForce: 5
   rollSpeed: 12
   rollCooldown: 2
-  rollDuration: 0.5
+  rollDuration: 0.6
+  invincibleDur: 0.6
   isInvincible: 0
+  knockbackDir: 0
+  knockbackSpeed: 5
+  knockbackJumpSpeed: 3
+  boss: {fileID: 0}
 --- !u!95 &602419497
 Animator:
   serializedVersion: 7
@@ -1046,11 +1051,14 @@ MonoBehaviour:
   chaseSpeed: 2
   attackRange: 4
   attackCooldown: 3
-  attackDuration: 1.2
+  attackDuration: 2
   damageDelay: 0.5
   attackDamage: 20
   hurtDuration: 0.5
   bossDamageTaken: 10
+  knockbackSpeed: 4
+  knockbackDir: 0
+  knockbackJumpSpeed: 2
   attackBoxSize: {x: 6.79, y: 3}
   attackOffset: {x: 3.76, y: -0.5}
   playerLayer:

@@ -1,12 +1,10 @@
-using JetBrains.Annotations;
 using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
     [Header("Components")]
     public Rigidbody2D rb;
-    public Transform player;
-
+    public Player player;
     [Header("Stats")]
     public float maxHealth = 100;
     public float currentHealth;
@@ -18,6 +16,9 @@ public class Boss : MonoBehaviour
     public int attackDamage = 25;
     public float hurtDuration = 0.3f;
     public float bossDamageTaken = 10f;
+    public float knockbackSpeed;
+    public float knockbackDir;
+    public float knockbackJumpSpeed;
 
     [Header("Hitbox")]
     public Vector2 attackBoxSize = new Vector2(3.5f, 1.5f); // Kích thước hộp sát thương
@@ -39,8 +40,7 @@ public class Boss : MonoBehaviour
         currentHealth = maxHealth;
         if (player == null)
         {
-            Player p = FindAnyObjectByType<Player>();
-            if (p != null) player = p.transform;
+            player = FindAnyObjectByType<Player>();
         }
 
         if (playerLayer.value == 0)
@@ -60,6 +60,7 @@ public class Boss : MonoBehaviour
     {
         StateMachine?.Tick();
         float speed = Mathf.Abs(rb.linearVelocityX);
+        knockbackDir = Mathf.Sign(transform.localScale.x); // them dau - luc take hit
         Anim.SetFloat("xVelocity", speed);
     }
 
